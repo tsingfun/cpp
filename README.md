@@ -1,4 +1,4 @@
-![https://www.tsingfun.com](https://www.tsingfun.com/statics/images/logo.png)
+[![https://www.tsingfun.com](https://www.tsingfun.com/statics/images/logo.png)](https://www.tsingfun.com)
 
 ***C/C++代码集合***
 ---------------------------------------
