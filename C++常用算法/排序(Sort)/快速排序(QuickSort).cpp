@@ -1,121 +1,61 @@
-/*******************************
-		   快速排序
-********************************/
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
+/************************************
+ * 快速排序
+ * 不稳定排序，O{nlogn} ~ O{n^2}
+ * 适合排序大量数据
+ * 设最左边为基准数
+ * 右边往左找一个比基准数小的
+ * 左边往右找一个比基准数大的，和上一步交换
+ * 碰头后和基准数交换
+ *
+ * https://www.tsingfun.com
+ ************************************/
+#include <iostream>
 
-void Quick_Sort(int *,int,int);
-int findPoss(int *,int,int);
-int Patrition(int *,int,int);
-int Random_Partition(int *,int,int);
-void swap(int *,int *);
+void printArray(int *array, int n)
+{
+    for (int i = 0; i < n; ++i)
+        std::cout << array[i] << std::endl;
+}
+
+void quickSort(int *array, int low, int high)
+{
+    int i = low;
+    int j = high;
+    int pivot = array[(i + j) / 2];
+    int temp;
+
+    while (i <= j)
+    {
+        while (array[i] < pivot)
+            i++;
+        while (array[j] > pivot)
+            j--;
+        if (i <= j)
+        {
+            temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+            i++;
+            j--;
+        }
+    }
+    if (j > low)
+        quickSort(array, low, j);
+    if (i < high)
+        quickSort(array, i, high);
+}
 
 int main()
 {
-	int num; 
-	printf("请输入排序的元素的个数：");
-	scanf("%d",&num);
+    int array[] = {95, 45, 48, 98, 1, 485, 65, 478, 1, 2325};
+    int n = sizeof(array)/sizeof(array[0]);
 
-	int i;
-	int *arr = (int *)malloc(num*sizeof(int));
-	printf("请依次输入这%d个元素（必须为整数）：",num);
-	for(i=0;i<num;i++)
-		scanf("%d",arr+i);
+    std::cout << "Before Quick Sort :" << std::endl;
+    printArray(array, n);
 
-	printf("快速排序后的顺序：");
-	Quick_Sort(arr,0,num-1);
-	for(i=0;i<num;i++)
-		printf("%d ",arr[i]);
-	printf("\n");
+    quickSort(array, 0, n-1);
 
-	free(arr);
-	arr = 0;
-	return 0;
-}
-
-/*
-快速排序函数，通过递归实现
-*/
-void Quick_Sort(int *a,int low,int high)
-{
-	int pos;
-
-	if(low < high)
-	{
-	   pos = Random_Partition(a,low,high);
-	   Quick_Sort(a,low,pos-1);		//左边子序列排序
-	   Quick_Sort(a,pos+1,high);	//右边子序列排序 
-	}
-}
-
-/*
-该函数返回分割点数值所在的位置,a为待排序数组的首地址，
-low刚开始表示排序范围内的第一个元素的位置，逐渐向右移动，
-high刚开始表示排序范围内的最后一个位置，逐渐向左移动
-*/
-int findPoss(int *a,int low,int high)
-{
-	if(a==NULL || low>high)
-		return -1;
-
-	int val = a[low];
-	while(low < high)
-	{
-	   while(low<high && a[high]>=val)
-	      high--;
-	   a[low] = a[high];
-
-	   while(low<high && a[low]<=val)
-	      low++;
-	   a[high] = a[low];	     
-	}
-
-	//最终low=high
-	a[low] = val;
-	return low;
-}
-
-/*
-算法导论版快速排序
-*/
-int Partition(int *a,int low ,int high)
-{
-	if(a==NULL || low>high)
-		return -1;
-
-	int small = low-1;
-	int j;
-	for(j=low;j<high;j++)
-	{
-		if(a[j]<a[high])
-		{
-			small++;
-			if(small != j)
-				swap(&a[small],&a[j]);
-		}
-	}
-	small++;
-	swap(&a[small],&a[high]);
-	return small;
-}
-
-/*
-随机选取枢轴元素
-*/
-int Random_Partition(int *A,int low,int high)
-{
-	//设置随机种子
-	srand((unsigned)time(0));
-	int index = low + rand()%(high-low+1);
-	swap(&A[index],&A[high]);
-	return Partition(A,low,high);
-}
-
-
-void swap(int *a,int *b)
-{
-	int temp = *a;
-	*a = *b;
-	*b = temp;
+    std::cout << "After Quick Sort :" << std::endl;
+    printArray(array, n);
+    return (0);
 }
