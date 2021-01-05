@@ -3,6 +3,10 @@
 */
 #ifndef THREAD_POOL_H
 #define THREAD_POOL_H
+/**
+ * 小巧精炼的一个通用无状态的线程池模型，加锁，效率还行。
+ * 追求极致效率的话，建议使用有状态的无锁线程池模型（isolated_threadpool.hpp）
+*/
 
 #include <string>
 #include <vector>
@@ -17,9 +21,8 @@ namespace std
 {
 //线程池最大容量,应尽量设小一点
 #define  THREADPOOL_MAX_NUM 16
-//#define  THREADPOOL_AUTO_GROW
 
-//线程池,可以提交变参函数或拉姆达表达式的匿名函数执行,可以获取执行返回值
+//线程池,可以提交变参函数或lamda表达式的匿名函数执行,可以获取执行返回值
 //不直接支持类成员函数, 支持类静态成员函数或全局函数,Opteron()函数等
 class threadpool
 {
@@ -33,8 +36,6 @@ class threadpool
 
 public:
 	inline threadpool(unsigned short size = 10) { addThread(size); }
-	//inline threadpool() {}
-	//inline void init(unsigned short size) { addThread(size); }
 	inline ~threadpool()
 	{
 		_run=false;
