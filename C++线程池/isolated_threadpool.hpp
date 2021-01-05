@@ -1,4 +1,7 @@
-﻿#ifndef ISOLATED_THREAD_POOL_H
+﻿/*
+清泛网(tsingfun.com)版权所有，禁止用于商业目的，侵权必究。
+*/
+#ifndef ISOLATED_THREAD_POOL_H
 #define ISOLATED_THREAD_POOL_H
 
 /**
@@ -80,14 +83,12 @@ private:
 
 			utility::Stopwatch sw;
 			sw.Start();
-			//context_->StartCycle(begin.ToEpochDelta().ToMilliseconds());
 
 			// 执行任务
 			task(); //context_->Evaluate(task);
 
 			sw.Stop();
 			g_task_total_ms += (size_t)sw.GetElapsedMilliseconds();
-			//context_->EndCycle();
 		}
 
 		context_.reset();

@@ -1,4 +1,7 @@
-﻿#ifndef THREAD_POOL_H
+﻿/*
+清泛网(tsingfun.com)版权所有，禁止用于商业目的，侵权必究。
+*/
+#ifndef THREAD_POOL_H
 #define THREAD_POOL_H
 
 #include <string>
@@ -6,8 +9,6 @@
 #include <queue>
 #include <atomic>
 #include <future>
-//#include <condition_variable>
-//#include <thread>
 #include <functional>
 #include <stdexcept>
 #include "platform/os.h"
@@ -54,7 +55,7 @@ public:
 	template<class F, class... Args>
 	auto commit(F&& f, Args&&... args) ->future<decltype(f(args...))>
 	{
-		if (!_run)    // stoped ??
+		if (!_run)
 			throw runtime_error("commit on ThreadPool is stopped.");
 
 		using RetType = decltype(f(args...)); // typename std::result_of<F(Args...)>::type, 函数 f 的返回值类型
@@ -125,4 +126,4 @@ private:
 
 }
 
-#endif //https://github.com/lzpong/
+#endif
